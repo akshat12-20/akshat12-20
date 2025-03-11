@@ -1,27 +1,22 @@
-name: Work Stats Readme
+name: WakaTime Stats
 
 on:
-  # Triggers manually
-  workflow_dispatch:
-  # Runs every 2 hours
+  # Update daily at midnight (UTC)
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0 0 * * *'
+  # Allow manual triggers
+  workflow_dispatch:
 
-# Make sure we can write changes to the repo
 permissions:
-  contents: write
+  contents: write  # needed to commit the updated README
 
 jobs:
-  update-readme:
-    name: Update this repo's README
+  update-waka-readme:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Check out the repo so we can update the README
-      - name: Check out repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      # Step 2: Run the athul/waka-readme action pinned to a stable version
-      - name: Update README with Wakatime stats
+      - name: Update README with WakaTime stats
         uses: athul/waka-readme@v1.2.6
         with:
           WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
